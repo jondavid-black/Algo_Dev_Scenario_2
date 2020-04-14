@@ -11,3 +11,25 @@ task dockerBuild(type:Exec) {
     args = ['build', '-t', gav, '.']
     
 }
+
+task dockerTag(type:Exec) {
+
+    // docker tag <initial_tag> <yourhubusername/artifact:version>
+    def gav = group_id + '/' + artifact_id + ':' + sem_ver
+
+    def tgt = 'blackjd/' + artifact_id + ':' + sem_ver
+
+    executable 'docker'
+    args = ['tag', gav, tgt]
+
+}
+
+task dockerPush(type:Exec) {
+
+    // docker push <yourhubusername/artifact:version>
+    def tgt = 'blackjd/' + artifact_id + ':' + sem_ver
+
+    executable 'docker'
+    args = ['push', tgt]
+
+}
